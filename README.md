@@ -56,4 +56,3 @@ bookings
 
 payments
 
-This project demonstrates how Java applications interact with databases using JDBC. It highlights SQL operations, data
