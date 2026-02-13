@@ -1,4 +1,4 @@
-package util;
+package hotel_management.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,4 +1,4 @@
-package model;
+package hotel_management.model;
 
 public class Customers {
     private int customerId;

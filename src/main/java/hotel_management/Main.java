@@ -1,6 +1,6 @@
 package hotel_management;
 
-import util.DBConnection;
+import hotel_management.util.DBConnection;
 
 import java.sql.*;
 import java.util.Scanner;
