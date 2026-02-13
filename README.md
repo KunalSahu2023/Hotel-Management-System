@@ -18,6 +18,7 @@ Secure database interaction using JDBC
 Data persistence using MySQL
 
 🧰 Tools & Technologies (Tech Stack)
+
 🔹 Programming Language
 
 Java
