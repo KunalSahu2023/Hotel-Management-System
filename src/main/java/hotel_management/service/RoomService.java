@@ -56,30 +56,15 @@ public class RoomService {
         return rooms;
     }
 
-    // Optionally, get available rooms only
-    public List<Rooms> getAvailableRooms() {
+    // Update Room
+    public List<Rooms> updateRoom(String id, Rooms room) {
         List<Rooms> rooms = new ArrayList<>();
-        String sql = "SELECT * FROM rooms WHERE status='AVAILABLE'";
-
-        try (Connection conn = DBConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            while (rs.next()) {
-                Rooms r = new Rooms(
-                        rs.getInt("room_id"),
-                        rs.getInt("room_number"),
-                        rs.getString("type"),
-                        rs.getDouble("price_per_day"),
-                        rs.getString("status")
-                );
-                rooms.add(r);
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Error fetching available rooms: " + e.getMessage());
-        }
-
         return rooms;
+
+    }
+    // Update Room
+    public boolean deleteRoom(String id) {
+        String sql = "DELETE FROM rooms WHERE room_id = " + id;
+        return true;
     }
 }

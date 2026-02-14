@@ -15,7 +15,7 @@ public class Main {
 	private static final BookingService bookingService = new BookingService();
 	private static final BillingService billingService = new BillingService();
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		boolean running = true;
 
 		while (running) {
@@ -26,7 +26,8 @@ public class Main {
 			System.out.println("4. Book Room");
 			System.out.println("5. Check In");
 			System.out.println("6. Check Out");
-			System.out.println("7. Exit");
+			System.out.println("7. Add Payment");
+			System.out.println("8. Exit");
 			System.out.print("Enter your choice: ");
 
 			int choice = sc.nextInt();
@@ -39,9 +40,11 @@ public class Main {
 				case 4 -> bookRoom();
 				case 5 -> checkIn();
 				case 6 -> checkOut();
-				case 7 -> {
+				case 7 -> addPayment();
+				case 8 -> {
 					running = false;
-					System.out.println("Exiting... Goodbye!");
+					Thread.sleep(2000);
+					System.out.println("Exiting... Thanks for visiting !");
 				}
 				default -> System.out.println("Invalid choice! Try again.");
 			}
@@ -81,7 +84,7 @@ public class Main {
 		System.out.print("Enter Room Number: ");
 		int number = sc.nextInt();
 		sc.nextLine();
-		System.out.print("Enter Room Type: ");
+		System.out.print("Enter Room Type (Deluxe, Standard, Luxury): ");
 		String type = sc.nextLine();
 		System.out.print("Enter Price per Day: ");
 		double price = sc.nextDouble();
@@ -136,5 +139,40 @@ public class Main {
 		boolean success = bookingService.checkOut(bookingId);
 		if (success) System.out.println("Checked out successfully!");
 		else System.out.println("Booking ID not found.");
+	}
+
+	//	Add Payment
+	private static  void addPayment() {
+		System.out.print("Enter Booking ID: ");
+		int bookingId = sc.nextInt();
+		sc.nextLine();
+
+		System.out.print("Enter Amount: ");
+		double amount = sc.nextDouble();
+		sc.nextLine();
+
+		System.out.println("Select Payment Method:");
+		System.out.println("1. CASH");
+		System.out.println("2. CARD");
+		System.out.println("3. UPI");
+
+		int methodChoice = sc.nextInt();
+		sc.nextLine();
+
+		String method = "";
+
+		switch (methodChoice) {
+			case 1: method = "CASH"; break;
+			case 2: method = "CARD"; break;
+			case 3: method = "UPI"; break;
+			default:
+				System.out.println("Invalid choice");
+				break;
+		}
+
+		Payments payment = new Payments(0, bookingId, new java.sql.Date(System.currentTimeMillis()), amount, method);
+		boolean success = billingService.makePayment(payment);
+		if (success) System.out.println("Payment added successfully!");
+		else System.out.println("Failed to add payment.");
 	}
 }

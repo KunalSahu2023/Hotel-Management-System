@@ -55,4 +55,15 @@ public class CustomerService {
 
         return customers;
     }
+
+        // Update Customer
+    public boolean updateCustomer(Customers customer) {
+        return true;
+    }
+
+        // Delete Customer
+    public boolean deleteCustomer(Customers customer) {
+        String sql = "DELETE FROM customers WHERE id = ?";
+        return true;
+    }
 }

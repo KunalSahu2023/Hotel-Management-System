@@ -26,22 +26,4 @@ import java.sql.*;
                 return false;
             }
         }
-
-        // Optionally, get total payments for a booking
-        public double getTotalPaid(int bookingId) {
-            String sql = "SELECT SUM(amount) AS total FROM payments WHERE booking_id=?";
-            try (Connection conn = DBConnection.getConnection();
-                 PreparedStatement ps = conn.prepareStatement(sql)) {
-
-                ps.setInt(1, bookingId);
-                ResultSet rs = ps.executeQuery();
-                if (rs.next()) {
-                    return rs.getDouble("total");
-                }
-
-            } catch (SQLException e) {
-                System.out.println("Error calculating total payment: " + e.getMessage());
-            }
-            return 0;
-        }
 }
