@@ -1,6 +1,6 @@
 package hotel_management.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Bookings {
     private int bookingId;
