@@ -35,11 +35,9 @@ JDBC (Java Database Connectivity)
 
 DDL & DML queries
 
-Joins, constraints, and indexing
-
 🔹 Development Tools
 
-IntelliJ IDEA / Eclipse / VS Code
+IntelliJ IDEA
 
 MySQL Workbench
 
@@ -57,3 +55,12 @@ bookings
 
 payments
 
+payments
+
+How to Run
+
+1. Create database in MySQL
+
+2. Update DB credentials (dbUrl, userName, password) in DBConnection.java
+
+3. Run Main.java
