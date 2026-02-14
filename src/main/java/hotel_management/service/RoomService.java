@@ -57,14 +57,43 @@ public class RoomService {
     }
 
     // Update Room
-    public List<Rooms> updateRoom(String id, Rooms room) {
-        List<Rooms> rooms = new ArrayList<>();
-        return rooms;
+    public boolean updateRoom(int id, Rooms room) {
+        String sql = "UPDATE rooms SET room_number = ?, type = ?, price_per_day = ?, status = ? WHERE room_id = ?";
 
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, room.getRoomNumber());
+            ps.setString(2, room.getType());
+            ps.setDouble(3, room.getPricePerDay());
+            ps.setString(4, room.getStatus());
+            ps.setInt(5, id);
+
+            int rows = ps.executeUpdate();
+            return rows > 0;
+
+        } catch (SQLException e) {
+            System.out.println("Error updating room: " + e.getMessage());
+            return false;
+        }
     }
-    // Update Room
-    public boolean deleteRoom(String id) {
-        String sql = "DELETE FROM rooms WHERE room_id = " + id;
-        return true;
+
+    // Delete Room
+    public boolean deleteRoom(int id) {
+        String sql = "DELETE FROM rooms WHERE room_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            int rows = ps.executeUpdate();
+            return rows > 0;
+
+        } catch (SQLException e) {
+            System.out.println("Error deleting room: " + e.getMessage());
+            return false;
+        }
     }
+
 }

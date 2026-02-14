@@ -22,12 +22,16 @@ public class Main {
 			System.out.println("\n=== HOTEL MANAGEMENT SYSTEM ===");
 			System.out.println("1. Add Customer");
 			System.out.println("2. View Customers");
-			System.out.println("3. Add Room");
-			System.out.println("4. Book Room");
-			System.out.println("5. Check In");
-			System.out.println("6. Check Out");
-			System.out.println("7. Add Payment");
-			System.out.println("8. Exit");
+			System.out.println("3. Update Customer");
+			System.out.println("4. Delete Customer");
+			System.out.println("5. Add Room");
+			System.out.println("6. Book Room");
+			System.out.println("7. Update Room");
+			System.out.println("8. Delete Room");
+			System.out.println("9. Check In");
+			System.out.println("10. Check Out");
+			System.out.println("11. Add Payment");
+			System.out.println("12. Exit");
 			System.out.print("Enter your choice: ");
 
 			int choice = sc.nextInt();
@@ -36,12 +40,16 @@ public class Main {
 			switch (choice) {
 				case 1 -> addCustomer();
 				case 2 -> viewCustomers();
-				case 3 -> addRoom();
-				case 4 -> bookRoom();
-				case 5 -> checkIn();
-				case 6 -> checkOut();
-				case 7 -> addPayment();
-				case 8 -> {
+				case 3 -> updateCustomer();
+				case 4 -> deleteCustomer();
+				case 5 -> addRoom();
+				case 6 -> bookRoom();
+				case 7 -> updateRoom();
+				case 8 -> deleteRoom();
+				case 9 -> checkIn();
+				case 10 -> checkOut();
+				case 11 -> addPayment();
+				case 12 -> {
 					running = false;
 					Thread.sleep(2000);
 					System.out.println("Exiting... Thanks for visiting !");
@@ -53,7 +61,7 @@ public class Main {
 		sc.close();
 	}
 
-	// 1️⃣ Add Customer
+	// 1.Add Customer
 	private static void addCustomer() {
 		System.out.print("Enter Name: ");
 		String name = sc.nextLine();
@@ -70,7 +78,7 @@ public class Main {
 		else System.out.println("Failed to add customer.");
 	}
 
-	// 2️⃣ View Customers
+	// 2.View Customers
 	private static void viewCustomers() {
 		List<Customers> customers = customerService.getAllCustomers();
 		System.out.println("\n--- Customers ---");
@@ -79,7 +87,41 @@ public class Main {
 		}
 	}
 
-	// 3️⃣ Add Room
+	// 3.Update Customer
+	private static void updateCustomer() {
+		System.out.print("Enter Customer ID to update: ");
+		int id = sc.nextInt();
+		sc.nextLine();
+
+		System.out.print("Enter New Name: ");
+		String name = sc.nextLine();
+		System.out.print("Enter New Phone: ");
+		String phone = sc.nextLine();
+		System.out.print("Enter New Email: ");
+		String email = sc.nextLine();
+		System.out.print("Enter New Address: ");
+		String address = sc.nextLine();
+
+		Customers customer = new Customers(id, name, phone, email, address);
+		boolean success = customerService.updateCustomer(id, customer);
+
+		if (success) System.out.println("Customer updated successfully!");
+		else System.out.println("Failed to update customer.");
+	}
+
+	// 4.Delete Customer
+		private static void deleteCustomer() {
+			System.out.print("Enter Customer ID to delete: ");
+			int id = sc.nextInt();
+			sc.nextLine();
+
+			boolean success = customerService.deleteCustomer(id);
+
+			if (success) System.out.println("Customer deleted successfully!");
+			else System.out.println("Failed to delete customer.");
+		}
+
+	// 5.Add Room
 	private static void addRoom() {
 		System.out.print("Enter Room Number: ");
 		int number = sc.nextInt();
@@ -96,12 +138,12 @@ public class Main {
 		else System.out.println("Failed to add room.");
 	}
 
-	// 4️⃣ Book Room
+	// 6.Book Room
 	private static void bookRoom() {
 		System.out.print("Enter Customer ID: ");
 		int customerId = sc.nextInt();
-		System.out.print("Enter Room ID: ");
-		int roomId = sc.nextInt();
+		System.out.print("Enter Room Number: ");
+		int number = sc.nextInt();
 		sc.nextLine();
 		System.out.print("Enter Check-in Date (YYYY-MM-DD): ");
 		String checkIn = sc.nextLine().trim();
@@ -111,7 +153,7 @@ public class Main {
 		double amount = sc.nextDouble();
 		sc.nextLine();
 
-		Bookings booking = new Bookings(0, customerId, roomId,
+		Bookings booking = new Bookings(0, customerId, number,
 				Date.valueOf(checkIn), Date.valueOf(checkOut), amount, "BOOKED");
 
 		boolean success = bookingService.bookRoom(booking);
@@ -119,7 +161,46 @@ public class Main {
 		else System.out.println("Failed to book room.");
 	}
 
-	// 5️⃣ Check In
+	// 7.Update Room
+	private static void updateRoom() {
+		System.out.print("Enter Room ID to update: ");
+		int id = sc.nextInt();
+		sc.nextLine();
+
+		System.out.print("Enter New Room Number: ");
+		int number = sc.nextInt();
+		sc.nextLine();
+
+		System.out.print("Enter New Room Type: ");
+		String type = sc.nextLine();
+
+		System.out.print("Enter New Price per Day: ");
+		double price = sc.nextDouble();
+		sc.nextLine();
+
+		System.out.print("Enter New Status (AVAILABLE / BOOKED): ");
+		String status = sc.nextLine();
+
+		Rooms room = new Rooms(id, number, type, price, status);
+		boolean success = roomService.updateRoom(id, room);
+
+		if (success) System.out.println("Room updated successfully!");
+		else System.out.println("Failed to update room.");
+	}
+
+	// 8.Delete Room
+	private static void deleteRoom() {
+		System.out.print("Enter Room Number to delete: ");
+		int id = sc.nextInt();
+		sc.nextLine();
+
+		boolean success = roomService.deleteRoom(id);
+
+		if (success) System.out.println("Room deleted successfully!");
+		else System.out.println("Failed to delete room.");
+	}
+
+	// 9.Check In
 	private static void checkIn() {
 		System.out.print("Enter Booking ID for Check-in: ");
 		int bookingId = sc.nextInt();
@@ -130,7 +211,7 @@ public class Main {
 		else System.out.println("Booking ID not found.");
 	}
 
-	// 6️⃣ Check Out
+	// 10.Check Out
 	private static void checkOut() {
 		System.out.print("Enter Booking ID for Check-out: ");
 		int bookingId = sc.nextInt();
@@ -141,7 +222,7 @@ public class Main {
 		else System.out.println("Booking ID not found.");
 	}
 
-	//	Add Payment
+	// 11.Add Payment
 	private static  void addPayment() {
 		System.out.print("Enter Booking ID: ");
 		int bookingId = sc.nextInt();

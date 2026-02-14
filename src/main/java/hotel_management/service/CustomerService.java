@@ -57,13 +57,43 @@ public class CustomerService {
     }
 
         // Update Customer
-    public boolean updateCustomer(Customers customer) {
-        return true;
+        public boolean updateCustomer(int id, Customers customer) {
+            String sql = "UPDATE customers SET name = ?, phone = ?, email = ?, address = ? WHERE customer_id = ?";
+
+            try (Connection conn = DBConnection.getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
+
+                ps.setString(1, customer.getName());
+                ps.setString(2, customer.getPhone());
+                ps.setString(3, customer.getEmail());
+                ps.setString(4, customer.getAddress());
+                ps.setInt(5, id);
+
+                int rows = ps.executeUpdate();
+                return rows > 0;
+
+            } catch (SQLException e) {
+                System.out.println("Error updating customer: " + e.getMessage());
+                return false;
+            }
+        }
+
+    // Delete Customer
+    public boolean deleteCustomer(int id) {
+        String sql = "DELETE FROM customers WHERE customer_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            int rows = ps.executeUpdate();
+            return rows > 0;
+
+        } catch (SQLException e) {
+            System.out.println("Error deleting customer: " + e.getMessage());
+            return false;
+        }
     }
 
-        // Delete Customer
-    public boolean deleteCustomer(Customers customer) {
-        String sql = "DELETE FROM customers WHERE id = ?";
-        return true;
-    }
 }
